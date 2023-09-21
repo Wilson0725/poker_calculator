@@ -7,7 +7,7 @@ import numpy as np
 from itertools import combinations
 
 # internal 
-import range
+import range_
 import cards
 import ranking
 import billboard as bbd
@@ -24,8 +24,8 @@ if __name__ == "__main__":
 
     table = [22,12,10]
 
-    utg = range.UTG_range()
-    bb = range.BB_range()
+    utg = range_.UTG_range()
+    bb = range_.BB_range()
 
     player1 = bbd.PlayerBill('John')
     player2 = bbd.PlayerBill('Ken')
@@ -34,7 +34,6 @@ if __name__ == "__main__":
     player2.updates(bb.call_utg,table)
 
     player1.show()
-    player1.save()
     player2.show()
 
     table = [22,12,10,15]
@@ -43,11 +42,4 @@ if __name__ == "__main__":
     player2.updates(bb.call_utg,table)
 
     player1.show()
-    player1.save()
     player2.show()
-
-
-
-
-
-    

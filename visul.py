@@ -1,55 +1,77 @@
+# %%
+### import 
+import matplotlib.pyplot as plt 
 import pandas as pd
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidget, QVBoxLayout, QWidget, QTableWidgetItem
-from PyQt5.QtCore import Qt
-import sys
+from ranking import ranking
+from range_ import ranger
+from range_ import hand_trans,trans
+from cards import Deck
+from itertools import combinations
+import os
+import range_
+import cards
+import math
 
-# Create an example DataFrame
-data = {'Column1': [1, 2, 3, 4],
-        'Column2': ['A', 'B', 'C', 'D']}
-df = pd.DataFrame(data)
+# %%
+### 
+        
+def create_cards(a_range, table):
+    counter = 0 # counting the hands filted out
+    combination = []
 
-class DataFrameUI(QMainWindow):
-    def __init__(self, df):
-        super().__init__()
-        self.df = df
-        self.initUI()
+    for hand in a_range:
 
-    def initUI(self):
-        self.setWindowTitle('DataFrame UI')
-        self.setGeometry(100, 100, 800, 400)
+        # filt off cards including tables 
+        if hand[0] in table:
+            counter += 1
+            continue 
 
-        # Create a QTableWidget to display the DataFrame
-        self.table_widget = QTableWidget()
-        self.table_widget.setColumnCount(len(self.df.columns))
-        self.table_widget.setRowCount(len(self.df))
-        self.table_widget.setHorizontalHeaderLabels(self.df.columns)
+        elif hand[1] in table:
+            counter += 1
+            continue
 
-        for i, row in enumerate(self.df.values):
-            for j, value in enumerate(row):
-                item = str(value)
-                self.table_widget.setItem(i, j, QTableWidgetItem(item))
+        else:
+            cards = [x for x in hand] + table
+        
+        combination.append(cards)
 
-        # Create a Matplotlib figure and canvas to display data
-        self.figure = plt.figure()
-        self.canvas = FigureCanvas(self.figure)
-        self.ax = self.figure.add_subplot(111)
-        self.df.plot(kind='bar', x='Column2', y='Column1', ax=self.ax)
-        self.ax.set_title('DataFrame Visualization')
+    return combination
 
-        # Create a QWidget containing the Matplotlib canvas
-        self.chart_widget = QWidget()
-        self.chart_layout = QVBoxLayout()
-        self.chart_layout.addWidget(self.table_widget)
-        self.chart_layout.addWidget(self.canvas)
-        self.chart_widget.setLayout(self.chart_layout)
+def plot(combos1,combos2=None,combos3=None,combos4=None,combos5=None,combos6=None):
+    
+    y1 = [math.log(ranking(combo),1e12) for combo in combos1]
+    y1.sort()
+    x1 = range(len(y1))
 
-        # Set the QWidget as the central widget
-        self.setCentralWidget(self.chart_widget)
+    y2 = [math.log(ranking(combo),1e12) for combo in combos2]
+    y2.sort()
+    x2 =range(len(y2))
+
+    
+    plt.plot([x/len(x1) for x in x1],y1,label='combos1')
+    plt.plot([x/len(x2) for x in x2],y2,label='combos2')
+    plt.legend()
+    plt.show()
+
+# %%
+###
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    window = DataFrameUI(df)
-    window.show()
-    sys.exit(app.exec_())
+
+    deck = cards.Deck()
+    card_dic, card_encode, card_value = deck.deck()
+    all_the_hands = list(combinations(card_encode,2))
+
+    table = deck.encode_shuffle()[0:3]
+    print(trans(table))
+    utg = range_.UTG_range()
+    bb = range_.BB_range()
+
+    combos1 = create_cards(utg.open,table)
+    combos2 = create_cards(bb.call_utg,table)
+
+    plot(combos1,combos2)
+    
+
+    
+    

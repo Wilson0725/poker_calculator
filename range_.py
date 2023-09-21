@@ -20,7 +20,6 @@ def trans(cards:list):
     
     return result
         
-
 def hand_trans(hands):
     card0 = card_dic[min(hands)]
     card1 = card_dic[max(hands)]
