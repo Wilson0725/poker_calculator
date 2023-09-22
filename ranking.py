@@ -32,7 +32,7 @@ def ranking(cards:list):
 #   # grade encoding 
     grade_encode_dic = {}
     for (no,grade) in enumerate(grade_list):
-        grade_encode_dic[grade] = no
+        grade_encode_dic[grade] = no+1
     
 #   # C75
     rank_record = []

@@ -1,7 +1,7 @@
 import pandas as pd
 from ranking import ranking
-from range import ranger
-from range import hand_trans,trans
+from range_ import ranger
+from range_ import hand_trans,trans
 from cards import Deck
 from itertools import combinations
 import os
@@ -58,28 +58,28 @@ class PlayerBill(BillBoard):
             else:
                 cards = [x for x in hand] + table
 
-                if ranking(cards) >= 8e12:
+                if ranking(cards) >= 9e12:
                     self.straight_flush.append(hand)
 
-                elif ranking(cards) >= 7e12:
+                elif ranking(cards) >= 8e12:
                     self.four_of_a_kind.append(hand)
 
-                elif ranking(cards) >= 6e12:
+                elif ranking(cards) >= 7e12:
                     self.full_house.append(hand)
 
-                elif ranking(cards) >= 5e12:
+                elif ranking(cards) >= 6e12:
                     self.flash.append(hand)
 
-                elif ranking(cards) >= 4e12:
+                elif ranking(cards) >= 5e12:
                     self.straight.append(hand)
                 
-                elif ranking(cards) >= 3e12:
+                elif ranking(cards) >= 4e12:
                     self.three_of_a_kind.append(hand)
 
-                elif ranking(cards) >= 2e12:
+                elif ranking(cards) >= 3e12:
                     self.two_pairs.append(hand)
 
-                elif ranking(cards) >= 1e12:
+                elif ranking(cards) >= 2e12:
                     self.pair.append(hand)
 
                 else:

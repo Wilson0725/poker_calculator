@@ -39,11 +39,11 @@ def create_cards(a_range, table):
 
 def plot(combos1,combos2=None,combos3=None,combos4=None,combos5=None,combos6=None):
     
-    y1 = [math.log(ranking(combo),1e12) for combo in combos1]
+    y1 = [math.log(ranking(combo),1e6) for combo in combos1]
     y1.sort()
     x1 = range(len(y1))
 
-    y2 = [math.log(ranking(combo),1e12) for combo in combos2]
+    y2 = [math.log(ranking(combo),1e6) for combo in combos2]
     y2.sort()
     x2 =range(len(y2))
 
